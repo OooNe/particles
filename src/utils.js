@@ -3,13 +3,13 @@ export function getRandom (size) {
 }
 
 export function getRandomDirection () {
-    return Math.random() > 0.5 ? -1 : 1;
+    return Math.random() * 2 * Math.PI;
 }
 
 export function getRandomColor() {
     const letters = '0123456789ABCDEF'.split('');
     let color = '#';
-    
+
     for (var i = 0; i < 6; i++ ) {
         color += letters[Math.floor(Math.random() * 16)];
     }

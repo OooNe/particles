@@ -3,23 +3,24 @@ import { getRandom } from './utils';
 
 const app = {
     fps: 30,
+    gravity: 4,
     init () {
         this.canvas = document.getElementById('app');
-        this.canvas.width = 500;
-        this.canvas.height = 500;
+        this.canvas.width = 800;
+        this.canvas.height = 800;
         this.ctx = this.canvas.getContext('2d');
         this._storage = [];
 
-        this.canvas.addEventListener('click', () => {
-            this.addParticles();
+        this.canvas.addEventListener('mousemove', (e) => {
+            this.addParticles(e.clientX, e.clientY);
         }, false);
 
         this.startAnimating(this.fps);
     },
-    addParticles() {
-        for (var i = 0; i < 20; i++) {
+    addParticles(x, y) {
+        for (var i = 0; i < 5; i++) {
             this._storage.push(
-                new Particle(getRandom(this.canvas.width), getRandom(this.canvas.height))
+                new Particle(x, y)
             );
         }
     },
@@ -43,16 +44,16 @@ const app = {
         }
     },
     draw () {
-        this._storage.forEach((particle) => {
-            particle.x = particle.x + particle.directionX * particle.speed
-            particle.y = particle.y + particle.directionY * particle.speed
+        this._storage.forEach((particle, index) => {
+            particle.x = particle.x + Math.cos(particle.directionX) * particle.speed
+            particle.y = particle.y + Math.sin(particle.directionY) * particle.speed + this.gravity
 
-            if (particle.x >= this.canvas.width || particle.x <= 0) {
-                particle.directionX = particle.directionX * -1;
-            }
+            particle.speed = particle.speed - particle.speed * 0.1;
 
-            if (particle.y >= this.canvas.height || particle.y <= 0) {
-                particle.directionY = particle.directionY * -1;
+            if (particle.speed <= 0.1) {
+                particle = null;
+                this._storage.splice(index, 1);
+                return;
             }
 
             particle.draw(this.ctx);

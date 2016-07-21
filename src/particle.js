@@ -6,7 +6,7 @@ export default class Particle {
         this.y = y;
         this.size = getRandom(3);
         this.color = getRandomColor();
-        this.speed = getRandom(3);
+        this.speed = getRandom(1.5);
         this.directionX = getRandomDirection();
         this.directionY = getRandomDirection();
     }
