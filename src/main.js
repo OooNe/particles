@@ -1,25 +1,37 @@
 import Particle from './particle';
-import { getRandom } from './utils';
 
 const app = {
     fps: 30,
     gravity: 2,
+    _storage: [],
     init () {
+        this.prepareCanvas();
+        this.bindEvents();
+        this.startAnimating(this.fps);
+    },
+
+    prepareCanvas() {
         this.canvas = document.getElementById('app');
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
         this.ctx = this.canvas.getContext('2d');
-        this._storage = [];
+    },
 
+    bindEvents () {
+        this.mouseMoveEvent();
+        this.clickEvent();    
+    },
+    
+    mouseMoveEvent() {
         this.canvas.addEventListener('mousemove', (e) => {
             this.addParticles(e.clientX, e.clientY, 10);
         }, false);
+    },
 
+    clickEvent() {
         this.canvas.addEventListener('click', (e) => {
             this.addParticles(e.clientX, e.clientY, 1000);
         }, false);
-
-        this.startAnimating(this.fps);
     },
 
     addParticles(x, y, amount) {
