@@ -17,6 +17,7 @@ const app = {
 
         this.startAnimating(this.fps);
     },
+
     addParticles(x, y) {
         for (var i = 0; i < 5; i++) {
             this._storage.push(
@@ -24,12 +25,14 @@ const app = {
             );
         }
     },
+
     startAnimating (fps) {
         this.fpsInterval = 1000 / fps;
         this.then = Date.now();
         this.startTime = this.then;
         this.animate();
     },
+
     animate() {
         requestAnimationFrame(this.animate.bind(this));
 
@@ -39,25 +42,41 @@ const app = {
         if (this.elapsed > this.fpsInterval) {
             this.then = this.now - (this.elapsed % this.fpsInterval);
 
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.clearCanvas();
             this.draw();
         }
     },
+
     draw () {
+        this.drawParticlesAndRemoveOld();
+    },
+
+    drawParticlesAndRemoveOld() {
         this._storage.forEach((particle, index) => {
-            particle.x = particle.x + Math.cos(particle.directionX) * particle.speed
-            particle.y = particle.y + Math.sin(particle.directionY) * particle.speed + this.gravity
+            particle.move();
 
-            particle.speed = particle.speed - particle.speed * 0.1;
+            particle.y += this.gravity;
 
-            if (particle.speed <= 0.1) {
-                particle = null;
-                this._storage.splice(index, 1);
+            if (particle.speed <= 0.01) {
+                this.removeParticle(particle);
+                this.removeParticleFormStorage(index);
                 return;
             }
 
             particle.draw(this.ctx);
         });
+    },
+
+    removeParticleFormStorage (index) {
+        this._storage.splice(index, 1);
+    },
+
+    removeParticle (particle) {
+        particle = null;
+    },
+
+    clearCanvas() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
 
