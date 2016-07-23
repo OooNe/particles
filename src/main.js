@@ -57,7 +57,7 @@ const app = {
 
             particle.y += this.gravity;
 
-            if (particle.speed <= 0.01) {
+            if (particle.speed <= 0.1) {
                 this.removeParticle(particle);
                 this.removeParticleFormStorage(index);
                 return;

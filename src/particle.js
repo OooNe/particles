@@ -4,9 +4,9 @@ export default class Particle {
     constructor (x, y) {
         this.x = x;
         this.y = y;
-        this.size = getRandom(3);
+        this.size = getRandom(5);
         this.color = getRandomColor();
-        this.speed = getRandom(1.5);
+        this.speed = getRandom(4);
         this.directionX = getRandomDirection();
         this.directionY = getRandomDirection();
     }
