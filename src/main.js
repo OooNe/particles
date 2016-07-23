@@ -3,23 +3,27 @@ import { getRandom } from './utils';
 
 const app = {
     fps: 30,
-    gravity: 4,
+    gravity: 2,
     init () {
         this.canvas = document.getElementById('app');
-        this.canvas.width = 800;
-        this.canvas.height = 800;
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
         this.ctx = this.canvas.getContext('2d');
         this._storage = [];
 
         this.canvas.addEventListener('mousemove', (e) => {
-            this.addParticles(e.clientX, e.clientY);
+            this.addParticles(e.clientX, e.clientY, 10);
+        }, false);
+
+        this.canvas.addEventListener('click', (e) => {
+            this.addParticles(e.clientX, e.clientY, 1000);
         }, false);
 
         this.startAnimating(this.fps);
     },
 
-    addParticles(x, y) {
-        for (var i = 0; i < 5; i++) {
+    addParticles(x, y, amount) {
+        for (var i = 0; i < amount; i++) {
             this._storage.push(
                 new Particle(x, y)
             );

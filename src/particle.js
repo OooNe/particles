@@ -1,12 +1,12 @@
 import { getRandomDirection, getRandom, getRandomColor } from './utils';
 
 export default class Particle {
-    constructor (x, y) {
+    constructor (x, y, speed) {
         this.x = x;
         this.y = y;
         this.size = getRandom(5);
         this.color = getRandomColor();
-        this.speed = getRandom(4);
+        this.speed =  getRandom(10);
         this.directionX = getRandomDirection();
         this.directionY = getRandomDirection();
     }
@@ -19,8 +19,8 @@ export default class Particle {
     }
 
     move () {
-        this.x = this.x + Math.cos(this.directionX) * this.speed;
-        this.y = this.y + Math.sin(this.directionY) * this.speed;
+        this.x += Math.cos(this.directionX) * this.speed;
+        this.y += Math.sin(this.directionY) * this.speed;
         this.slowDown();
     }
 

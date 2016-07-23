@@ -11,6 +11,7 @@ export function getRandomDirection () {
 export function getRandomColor() {
     return RandomColor({
         luminosity: 'bright',
-        format: 'rgba'        
+        format: 'rgba',
+        hue: 'red'        
     });
 }
